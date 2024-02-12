@@ -7,7 +7,7 @@ class PathogenDecisionEngine:
     def __init__(self,
                  rule_table):
         self.rule_table = rule_table
-        self.criteria_names = self.rule_table.columns.to_list()[:-1]
+        self.criteria_names = [col for col in self.rule_table.columns.to_list() if col != "Output"]
         self.rule_engine = self.build_rule_engine()
 
     def build_rule_engine(self):
@@ -65,11 +65,11 @@ class PathogenDecisionEngine:
     @staticmethod
     def postprocess_inference(rule_set_out):
         output_set = set([label for result, label in rule_set_out if result is True])
-        output_filtering = {'Pathogenic': [{'Pathogenic', 'Likely Pathogenic'},
+        output_filtering = {'Pathogenic': [{'Pathogenic', 'Likely pathogenic'},
                                            {'Pathogenic'}],
-                            'Likely Pathogenic': [{'Likely Pathogenic'}],
-                            'Likely Benign': [{'Likely Benign'}],
-                            'Benign': [{'Benign', 'Likely Benign'},
+                            'Likely pathogenic': [{'Likely pathogenic'}],
+                            'Likely benign': [{'Likely benign'}],
+                            'Benign': [{'Benign', 'Likely benign'},
                                        {'Benign'}]
                             }
         output_label = "Uncertain significance"
@@ -80,28 +80,28 @@ class PathogenDecisionEngine:
 
         return output_label, output_set
 
-    def preprocess_input_sovad(self, input_list):
-        input_list_post = []
-        for criterion in input_list:
-            assert criterion[-1].isdigit(), AssertionError("the criterion %s is not in the criteria names of your "
-                                                           "rule table" % criterion)
-            input_list_post.append(criterion[:-1])
-        input_dict = dict(Counter(input_list_post))
-        for criterion in self.criteria_names:
-            if criterion not in input_dict:
-                input_dict[criterion] = 0
-        return input_dict
+    def preprocess_input_sovad(self, unprocessed_input):
+        if isinstance(unprocessed_input, list):
+            unprocessed_input_post = []
+            for criterion in unprocessed_input:
+                criterion_group = re.sub("[0-9]+$", "", criterion)
+                assert criterion_group in self.criteria_names, AssertionError("the criterion %s is not in the criteria names of your "
+                                                            "rule table" % criterion)
+                unprocessed_input_post.append(criterion_group)
+            input_dict = dict(Counter(unprocessed_input_post))
+        else:
+            input_dict = unprocessed_input
+        return {key: input_dict.get(key, 0) for key in self.criteria_names}
+
 
     def infer(self, input_sample):
         # preprocess if a list
-        if isinstance(input_sample, list):
-            input_sample = self.preprocess_input_sovad(input_sample)
+        preprocessed_input_sample = self.preprocess_input_sovad(input_sample)
         # validating input_dict
-        self.input_validator(input_sample)
+        self.input_validator(preprocessed_input_sample)
         # infer each rule
         rule_set_out = []
         for rule, label in self.rule_engine:
-            rule_set_out.append((rule.matches(input_sample), label))
-
+            rule_set_out.append((rule.matches(preprocessed_input_sample), label))
         rule_set_out = self.postprocess_inference(rule_set_out)
         return rule_set_out
