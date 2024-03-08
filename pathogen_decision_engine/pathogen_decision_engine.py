@@ -1,6 +1,7 @@
 import rule_engine
 import re
 from collections import Counter
+import pandas as pd
 
 
 class PathogenDecisionEngine:
@@ -43,8 +44,10 @@ class PathogenDecisionEngine:
                         condition = ">="
                     else:
                         continue
-                    # Store
                     rule_string += criterion + " " + condition + " " + str(int(value)) + " and "
+                    if condition == "<" or condition == "<=":
+                        rule_string += criterion + " > 0 and "
+                    # Store
                 # Post process rule string
                 rule_string = rule_string[:-5] + ") or "
             # Append to set of rules
@@ -64,13 +67,13 @@ class PathogenDecisionEngine:
 
     @staticmethod
     def postprocess_inference(rule_set_out):
-        output_set = set([label for result, label in rule_set_out if result is True])
-        output_filtering = {'Pathogenic': [{'Pathogenic', 'Likely pathogenic'},
-                                           {'Pathogenic'}],
-                            'Likely pathogenic': [{'Likely pathogenic'}],
-                            'Likely benign': [{'Likely benign'}],
-                            'Benign': [{'Benign', 'Likely benign'},
-                                       {'Benign'}]
+        output_set = set([label.lower() for result, label in rule_set_out if result is True])
+        output_filtering = {'Pathogenic': [{'pathogenic', 'likely pathogenic'},
+                                           {'pathogenic'}],
+                            'Likely Pathogenic': [{'likely pathogenic'}],
+                            'Likely Benign': [{'likely benign'}],
+                            'Benign': [{'benign', 'likely benign'},
+                                       {'benign'}]
                             }
         output_label = "Uncertain significance"
         for label in output_filtering:
@@ -105,3 +108,4 @@ class PathogenDecisionEngine:
             rule_set_out.append((rule.matches(preprocessed_input_sample), label))
         rule_set_out = self.postprocess_inference(rule_set_out)
         return rule_set_out
+
