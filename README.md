@@ -1,7 +1,7 @@
 # Pathogen Decision Engine Package
 
 The Decision Engine Package is a Python package for building and using decision engines based on rule sets defined in CSV files.
-Its main purpose is to implement the decision mechanism described in the SOVAD [1](References) paper to classify the pathogenicity of a mutation given a well-known set of predictors.
+Its main purpose is to implement the decision mechanism described in the SOVAD [^1] paper to classify the pathogenicity of a mutation given a well-known set of predictors.
 
 
 ## Installation
