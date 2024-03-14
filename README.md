@@ -3,6 +3,8 @@
 The Decision Engine Package is a Python package for building and using decision engines based on rule sets defined in CSV files.
 Its main purpose is to implement the decision mechanism described in the SOVAD [^1] paper to classify the pathogenicity of a mutation given a well-known set of predictors.
 
+Twin project using GoRules' zen-engine : [sovad-gorules](https://github.com/bergo-bioinfo/sovad_gorules)
+
 
 ## Installation
 
@@ -56,4 +58,4 @@ print(result)
 
 
 ## References
-[1] [Koeppel, Florence et al.] “[Standardisation of pathogenicity classification for somatic alterations in solid tumours and haematologic malignancies.](doi:10.1016/j.ejca.2021.08.047)” [European journal of cancer (Oxford, England : 1990) vol. 159 (2021): 1-15]. 
+[^1] [Koeppel, Florence et al.] “[Standardisation of pathogenicity classification for somatic alterations in solid tumours and haematologic malignancies.](doi:10.1016/j.ejca.2021.08.047)” [European journal of cancer (Oxford, England : 1990) vol. 159 (2021): 1-15]. 
