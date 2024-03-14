@@ -1,0 +1,20 @@
+PA,PVS,PS,PM,PP,BA,BS,BP,Output
+1,,,,,,,,Pathogenic
+,1,>= 1,,,,,,Pathogenic
+,1,,>= 2,,,,,Pathogenic
+,1,,,>= 2,,,,Pathogenic
+,1,,1,1,,,,Pathogenic
+,,>= 2,,,,,,Pathogenic
+,,1,>= 3,,,,,Pathogenic
+,,1,2,>= 2,,,,Pathogenic
+,,1,1,>= 4,,,,Pathogenic
+,1,,1,,,,,Likely Pathogenic
+,,1,<=2,,,,,Likely Pathogenic
+,,1,,>=2,,,,Likely Pathogenic
+,,,>=3,,,,,Likely Pathogenic
+,,,2,>=2,,,,Likely Pathogenic
+,,,1,>=4,,,,Likely Pathogenic
+,,,,,,1,1,Likely Benign
+,,,,,,,>=2,Likely Benign
+,,,,,,>=2,,Benign
+,,,,,1,,,Benign
