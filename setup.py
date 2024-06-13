@@ -9,8 +9,8 @@ def read_file(filename):
 
 setup(
     name='pathogen-decision-engine',
-    version='1.1.1',
-    long_description=read_file('readme.md'),
+    version='1.3.1',
+    long_description=read_file('README.md'),
     long_description_content_type='text/markdown',
     packages=find_packages(),
     install_requires=[

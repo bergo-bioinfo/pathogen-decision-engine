@@ -26,7 +26,7 @@ To use the CLI, you can provide either the path of a rule table path made as a C
 Each cell can be empty or filled with a symbol (>, >=, ==, <, <=) and a value, indicating a numeric constraint for a certain predictor regarding a certain rule.
 Example:
 
-    decision_engine_cli --rule_table_path table.csv --input_dict '{"PA":1, "PVS":0, "PS":1, "PM":2, "PP":1, "BA":1, "BS":0, "BP":0}'
+    decision_engine_cli --rule_table_path data/sovad_rules_table.csv --input_sample '{"PA":1, "PVS":0, "PS":1, "PM":2, "PP":1, "BA":1, "BS":0, "BP":0}'
 
 You can pass a rule table in the form of dict expressed as a string
 Example:

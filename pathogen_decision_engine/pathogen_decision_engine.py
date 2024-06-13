@@ -70,8 +70,8 @@ class PathogenDecisionEngine:
         output_set = set([label.lower() for result, label in rule_set_out if result is True])
         output_filtering = {'Pathogenic': [{'pathogenic', 'likely pathogenic'},
                                            {'pathogenic'}],
-                            'Likely Pathogenic': [{'likely pathogenic'}],
-                            'Likely Benign': [{'likely benign'}],
+                            'Likely pathogenic': [{'likely pathogenic'}],
+                            'Likely benign': [{'likely benign'}],
                             'Benign': [{'benign', 'likely benign'},
                                        {'benign'}]
                             }
